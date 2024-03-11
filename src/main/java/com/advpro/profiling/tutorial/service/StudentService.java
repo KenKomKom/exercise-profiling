@@ -29,20 +29,7 @@ public class StudentService {
     }
 
     public Optional<Student> findStudentWithHighestGpa() {
-        List<Sort.Order> sortBy = new ArrayList<Sort.Order>();
-        sortBy.add(new Sort.Order(Sort.Direction.DESC, "gpa"));
-        sortBy.add(new Sort.Order(Sort.Direction.ASC, "name"));
-        List<Student> students = studentRepository.findAll(Sort.by(sortBy));
-//        Student highestGpaStudent = null;
-//        double highestGpa = 0.0;
-//        for (Student student : students) {
-//            if (student.getGpa() > highestGpa) {
-//                highestGpa = student.getGpa();
-//                highestGpaStudent = student;
-//            }
-//        }
-        Student highestGpaStudent = students.get(0);
-        return Optional.ofNullable(highestGpaStudent);
+        return studentRepository.findTopByOrderByGpaDesc();
     }
 
     public String joinStudentNames() {
@@ -50,7 +37,6 @@ public class StudentService {
         StringBuilder result = new StringBuilder();
         String coma = ", ";
         for (Student student : students) {
-//            result += student.getName() + ", ";
             result.append(student.getName()).append(coma);
         }
         return result.substring(0, result.length() - 2);
